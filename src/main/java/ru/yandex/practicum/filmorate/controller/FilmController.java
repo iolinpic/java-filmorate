@@ -30,7 +30,7 @@ public class FilmController {
 
     @PutMapping
     public Film updateFilm(@Valid @RequestBody Film film) {
-        if(!films.containsKey(film.getId())) {
+        if (!films.containsKey(film.getId())) {
             throw new ValidationException("Film not found");
         }
         films.put(film.getId(), film);

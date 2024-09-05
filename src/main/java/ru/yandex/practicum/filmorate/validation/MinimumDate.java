@@ -11,7 +11,9 @@ import java.lang.annotation.RetentionPolicy;
 @Past
 public @interface MinimumDate {
     String message() default "Date must not be before {value}";
+
     Class<?>[] groups() default {};
+
     Class<?>[] payload() default {};
 
     String value() default "1895-12-28";
