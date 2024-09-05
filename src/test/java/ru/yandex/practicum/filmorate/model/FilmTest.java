@@ -77,7 +77,7 @@ class FilmTest {
         assertFalse(violations.isEmpty());
         assertEquals(1, violations.stream().filter(c -> c.getPropertyPath().toString().equals("duration")).count());
     }
-    
+
     @Test
     public void shouldNotCreateFilmWithReleaseDateBefore1885_12_28() {
         Film film = new Film();
