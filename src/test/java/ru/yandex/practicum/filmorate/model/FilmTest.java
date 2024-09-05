@@ -77,18 +77,16 @@ class FilmTest {
         assertFalse(violations.isEmpty());
         assertEquals(1, violations.stream().filter(c -> c.getPropertyPath().toString().equals("duration")).count());
     }
-
-    // Такое ощущение что он не находит кастомный валидатор при таком запуске,хотя при полном запуске валидация работает,
-    // но не могу найти как правильно запустить
-//    @Test
-//    public void shouldNotCreateFilmWithReleaseDateBefore1985_12_28() {
-//        Film film = new Film();
-//        film.setDuration(1);
-//        film.setName("asd");
-//        film.setDescription("aaaaabbbbbcccccddddd");
-//        film.setReleaseDate(LocalDate.of(1984, 11, 28));
-//        Set<ConstraintViolation<Film>> violations = validator.validate(film);
-//        assertFalse(violations.isEmpty());
-//        assertEquals(1, violations.stream().filter(c -> c.getPropertyPath().toString().equals("releaseDate")).count());
-//    }
+    
+    @Test
+    public void shouldNotCreateFilmWithReleaseDateBefore1885_12_28() {
+        Film film = new Film();
+        film.setDuration(1);
+        film.setName("asd");
+        film.setDescription("aaaaabbbbbcccccddddd");
+        film.setReleaseDate(LocalDate.of(1884, 11, 28));
+        Set<ConstraintViolation<Film>> violations = validator.validate(film);
+        assertFalse(violations.isEmpty());
+        assertEquals(1, violations.stream().filter(c -> c.getPropertyPath().toString().equals("releaseDate")).count());
+    }
 }
