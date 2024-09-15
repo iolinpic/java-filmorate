@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
+import ru.yandex.practicum.filmorate.exception.NotFountException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
@@ -101,7 +101,7 @@ class UserControllerTest {
                         put("/users")
                                 .content(json).contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isNotFound())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ValidationException));
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFountException));
     }
 
     @Test
