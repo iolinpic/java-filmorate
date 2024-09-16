@@ -22,12 +22,8 @@ public class FilmService {
     public Film addLike(Long filmId, Long userId) {
         User user = userStorage.getUser(userId);
         Film film = filmStorage.getFilm(filmId);
-        if (film == null) {
-            throw new NotFountException("Film not found");
-        }
-        if (user == null) {
-            throw new NotFountException("User not found");
-        }
+        checkExist(film);
+        checkExist(user);
         film.getLikes().add(userId);
         filmStorage.updateFilm(film);
         log.info("Added like to film {} by user {}", filmId, userId);
@@ -37,16 +33,24 @@ public class FilmService {
     public Film removeLike(Long filmId, Long userId) {
         User user = userStorage.getUser(userId);
         Film film = filmStorage.getFilm(filmId);
-        if (film == null) {
-            throw new NotFountException("Film not found");
-        }
-        if (user == null) {
-            throw new NotFountException("User not found");
-        }
+        checkExist(film);
+        checkExist(user);
         film.getLikes().remove(userId);
         filmStorage.updateFilm(film);
         log.info("Removed like from film {} by user {}", filmId, userId);
         return film;
+    }
+
+    private void checkExist(Film film) {
+        if (film == null) {
+            throw new NotFountException("Film not found");
+        }
+    }
+
+    private void checkExist(User user) {
+        if (user == null) {
+            throw new NotFountException("User not found");
+        }
     }
 
     public Collection<Film> getTopFilms(int count) {

@@ -18,9 +18,8 @@ public class UserService {
     public User addFriend(Long userId, Long friendId) {
         User user = userStorage.getUser(userId);
         User friend = userStorage.getUser(friendId);
-        if (user == null || friend == null) {
-            throw new NotFountException("User not found");
-        }
+        checkExist(user);
+        checkExist(friend);
         user.getFriends().add(friendId);
         friend.getFriends().add(userId);
         userStorage.updateUser(user);
@@ -32,9 +31,8 @@ public class UserService {
     public User removeFriend(Long userId, Long friendId) {
         User user = userStorage.getUser(userId);
         User friend = userStorage.getUser(friendId);
-        if (user == null || friend == null) {
-            throw new NotFountException("User not found");
-        }
+        checkExist(user);
+        checkExist(friend);
         user.getFriends().remove(friendId);
         friend.getFriends().remove(userId);
         userStorage.updateUser(user);
@@ -58,5 +56,11 @@ public class UserService {
             throw new NotFountException("User not found");
         }
         return user.getFriends().stream().filter(id -> friend.getFriends().contains(id)).map(userStorage::getUser).toList();
+    }
+
+    private void checkExist(User user) {
+        if (user == null) {
+            throw new NotFountException("User not found");
+        }
     }
 }
