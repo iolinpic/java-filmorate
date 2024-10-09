@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS "users"
 (
-    "id"       GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "id"       bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "email"    varchar,
     "login"    varchar,
     "name"     varchar,
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS "user_friend"
 
 CREATE TABLE IF NOT EXISTS "films"
 (
-    "id"          GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "id"          bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name"        varchar,
     "description" text,
     "releaseDate" timestamp,
@@ -34,13 +34,13 @@ CREATE TABLE IF NOT EXISTS "film_like"
 
 CREATE TABLE IF NOT EXISTS "genre"
 (
-    "id"   GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "id"  bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name" varchar
 );
 
 CREATE TABLE IF NOT EXISTS "rating"
 (
-    "id"   GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "id"   bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "name" varchar
 );
 
