@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 @Slf4j
-@Component
+@Component("memory_user")
 public class InMemoryUserStorage implements UserStorage {
     private final HashMap<Long, User> users = new HashMap<>();
 
@@ -45,6 +45,54 @@ public class InMemoryUserStorage implements UserStorage {
     public void deleteUser(Long id) {
         users.remove(id);
         log.info("User {} deleted", id);
+    }
+
+    @Override
+    public Collection<User> getUserFriends(Long userId) {
+        User user = getUser(userId);
+        if (user == null) {
+            throw new NotFountException("User not found");
+        }
+        return user.getFriends().stream().map(this::getUser).toList();
+    }
+
+    @Override
+    public Collection<User> getCommonFriends(Long userId, Long friendId) {
+        User user = getUser(userId);
+        User friend = getUser(friendId);
+        if (user == null || friend == null) {
+            throw new NotFountException("User not found");
+        }
+        return user.getFriends().stream().filter(id -> friend.getFriends().contains(id)).map(this::getUser).toList();
+    }
+
+    @Override
+    public void addFriend(Long userId, Long friendId) {
+        User user = getUser(userId);
+        User friend = getUser(friendId);
+        checkExist(user);
+        checkExist(friend);
+        user.getFriends().add(friendId);
+        updateUser(user);
+        log.info("User {} added friend {}", userId, friendId);
+    }
+
+    @Override
+    public void removeFriend(Long userId, Long friendId) {
+        User user = getUser(userId);
+        User friend = getUser(friendId);
+        checkExist(user);
+        checkExist(friend);
+        user.getFriends().remove(friendId);
+        updateUser(user);
+        log.info("User {} removed friend {}", userId, friendId);
+
+    }
+
+    private void checkExist(User user) {
+        if (user == null) {
+            throw new NotFountException("User not found");
+        }
     }
 
     private long getNextId() {

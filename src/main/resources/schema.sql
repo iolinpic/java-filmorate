@@ -11,7 +11,6 @@ CREATE TABLE IF NOT EXISTS user_friend
 (
     user_id   bigint,
     friend_id bigint,
-    status    tinyint DEFAULT 0,
     PRIMARY KEY (user_id, friend_id)
 );
 
@@ -38,7 +37,7 @@ CREATE TABLE IF NOT EXISTS genre
     name varchar
 );
 
-CREATE TABLE IF NOT EXISTS mpa
+CREATE TABLE IF NOT EXISTS rating
 (
     id   bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name varchar

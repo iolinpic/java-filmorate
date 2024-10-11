@@ -58,7 +58,7 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
 
     @Override
     public Film addFilm(Film film) {
-        Long id = insert(ADD_QUERY, film.getName(), film.getDescription(), Timestamp.from(Instant.from(film.getReleaseDate())), film.getDuration(), film.getMpaId());
+        Long id = insert(ADD_QUERY, film.getName(), film.getDescription(), film.getReleaseDate(), film.getDuration(), film.getMpaId());
         if (!film.getGenres().isEmpty()) {
             filmGenreRepository.addGenresToFilm(id, film.getGenres().stream().toList());
         }
@@ -68,7 +68,7 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
 
     @Override
     public Film updateFilm(Film film) {
-        update(UPDATE_QUERY, film.getName(), film.getDescription(), Timestamp.from(Instant.from(film.getReleaseDate())), film.getDuration(), film.getMpaId(), film.getId());
+        update(UPDATE_QUERY, film.getName(), film.getDescription(), film.getReleaseDate(), film.getDuration(), film.getMpaId(), film.getId());
         if (!film.getGenres().isEmpty()) {
             filmGenreRepository.deleteGenresFromFilm(film.getId());
             filmGenreRepository.addGenresToFilm(film.getId(), film.getGenres().stream().toList());
