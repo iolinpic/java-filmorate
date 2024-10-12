@@ -1,10 +1,13 @@
 package ru.yandex.practicum.filmorate.dal;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import ru.yandex.practicum.filmorate.exception.ConstrainsViolationException;
+import ru.yandex.practicum.filmorate.exception.NotFountException;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -28,20 +31,29 @@ public class BaseRepository<T> {
     }
 
     protected boolean delete(String query, long id) {
-        int rowsDeleted = jdbc.update(query, id);
-        return rowsDeleted > 0;
+        try {
+            int rowsDeleted = jdbc.update(query, id);
+            return rowsDeleted > 0;
+        } catch (DataIntegrityViolationException exception) {
+            throw new ConstrainsViolationException(exception.getMessage());
+        }
+
     }
 
     protected long insert(String query, Object... params) {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbc.update(connection -> {
-            PreparedStatement ps = connection
-                    .prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            for (int idx = 0; idx < params.length; idx++) {
-                ps.setObject(idx + 1, params[idx]);
-            }
-            return ps;
-        }, keyHolder);
+        try {
+            jdbc.update(connection -> {
+                PreparedStatement ps = connection
+                        .prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                for (int idx = 0; idx < params.length; idx++) {
+                    ps.setObject(idx + 1, params[idx]);
+                }
+                return ps;
+            }, keyHolder);
+        } catch (DataIntegrityViolationException exception) {
+            throw new ConstrainsViolationException(exception.getMessage());
+        }
 
         Long id = keyHolder.getKeyAs(Long.class);
 
@@ -53,16 +65,27 @@ public class BaseRepository<T> {
     }
 
     protected void update(String query, Object... params) {
-        int rowsUpdated = jdbc.update(query, params);
-        if (rowsUpdated == 0) {
-            throw new RuntimeException("Не удалось обновить данные");
+        try {
+            int rowsUpdated = jdbc.update(query, params);
+            if (rowsUpdated == 0) {
+                throw new NotFountException("Не удалось обновить данные");
+            }
+        } catch (DataIntegrityViolationException exception) {
+            throw new ConstrainsViolationException(exception.getMessage());
         }
+
     }
 
     protected void batchUpdate(String query, BatchPreparedStatementSetter bps) {
-        int[] rowsUpdated = jdbc.batchUpdate(query, bps);
-        if (rowsUpdated.length == 0) {
-            throw new RuntimeException("Не удалось обновить данные");
+        try {
+            int[] rowsUpdated = jdbc.batchUpdate(query, bps);
+            if (rowsUpdated.length == 0) {
+                throw new RuntimeException("Не удалось обновить данные");
+            }
+        } catch (DataIntegrityViolationException exception) {
+            throw new ConstrainsViolationException(exception.getMessage());
         }
+
+
     }
 }

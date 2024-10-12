@@ -14,7 +14,7 @@ import java.util.Collection;
 public class LikeRepository extends BaseRepository<Like> {
     private static final String FIND_ALL_QUERY = "SELECT * FROM film_like";
     private static final String FIND_ALL_BY_FILM_ID_QUERY = "SELECT * FROM film_like WHERE film_id = ?";
-    private static final String DELETE_QUERY = "DELETE FROM film_like WHERE film_id = ? && user_id = ?";
+    private static final String DELETE_QUERY = "DELETE FROM film_like WHERE film_id = ? AND user_id = ?";
     private static final String ADD_QUERY = "INSERT INTO film_like (film_id,user_id) VALUES (?, ?)";
 
     public LikeRepository(JdbcTemplate jdbc, RowMapper<Like> mapper) {

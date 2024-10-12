@@ -13,7 +13,7 @@ public class FriendshipRepository extends BaseRepository<Friendship> {
     private static final String FIND_ALL_BY_USER_ID_QUERY = "SELECT * FROM user_friend WHERE user_id = ?";
 
 
-    private static final String DELETE_QUERY = "DELETE FROM user_friend WHERE user_id = ? && friend_id = ?";
+    private static final String DELETE_QUERY = "DELETE FROM user_friend WHERE user_id = ? AND friend_id = ?";
     private static final String ADD_QUERY = "INSERT INTO user_friend (user_id,friend_id) VALUES (?, ?)";
 
     public FriendshipRepository(JdbcTemplate jdbc, RowMapper<Friendship> mapper) {
