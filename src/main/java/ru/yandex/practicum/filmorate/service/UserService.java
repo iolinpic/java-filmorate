@@ -35,14 +35,19 @@ public class UserService {
     }
 
     public void addFriend(Long userId, Long friendId) {
+        userStorage.getUser(userId);
+        userStorage.getUser(friendId);
         userStorage.addFriend(userId, friendId);
     }
 
     public void removeFriend(Long userId, Long friendId) {
+        userStorage.getUser(userId);
+        userStorage.getUser(friendId);
         userStorage.removeFriend(userId, friendId);
     }
 
     public Collection<User> listOfFriends(Long userId) {
+        userStorage.getUser(userId);
         return userStorage.getUserFriends(userId);
     }
 

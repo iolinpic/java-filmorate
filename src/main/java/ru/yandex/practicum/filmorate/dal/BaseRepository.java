@@ -30,13 +30,13 @@ public class BaseRepository<T> {
         return jdbc.query(query, mapper, params);
     }
 
-    protected boolean delete(String query, long id) {
-        try {
-            int rowsDeleted = jdbc.update(query, id);
-            return rowsDeleted > 0;
-        } catch (DataIntegrityViolationException exception) {
-            throw new ConstrainsViolationException(exception.getMessage());
-        }
+    protected boolean delete(String query, Object... params) {
+//        try {
+        int rowsDeleted = jdbc.update(query, params);
+        return rowsDeleted > 0;
+//        } catch (DataIntegrityViolationException exception) {
+//            throw new ConstrainsViolationException(exception.getMessage());
+//        }
 
     }
 

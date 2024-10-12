@@ -4,12 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import ru.yandex.practicum.filmorate.exception.NotFountException;
 import ru.yandex.practicum.filmorate.model.Friendship;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.Collection;
 
 @Repository("UserRepository")
@@ -47,6 +46,8 @@ public class UserRepository extends BaseRepository<User> implements UserStorage 
                     .map(Friendship::getFriendId)
                     .toList()
             );
+        } else {
+            throw new NotFountException("User not found");
         }
         return user;
     }
@@ -71,12 +72,12 @@ public class UserRepository extends BaseRepository<User> implements UserStorage 
 
     @Override
     public void addFriend(Long userId, Long friendId) {
-        friendshipRepository.add(userId, friendId);
+        friendshipRepository.addFriend(userId, friendId);
     }
 
     @Override
     public void removeFriend(Long userId, Long friendId) {
-        friendshipRepository.delete(userId, friendId);
+        friendshipRepository.deleteFriend(userId, friendId);
     }
 
     @Override

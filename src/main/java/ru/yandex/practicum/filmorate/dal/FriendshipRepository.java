@@ -29,13 +29,13 @@ public class FriendshipRepository extends BaseRepository<Friendship> {
         return findMany(FIND_ALL_BY_USER_ID_QUERY, userId);
     }
 
-    public void add(Long userId, Long friendId) {
+    public void addFriend(Long userId, Long friendId) {
         update(ADD_QUERY, userId, friendId);
     }
 
 
-    public void delete(Long userId, Long friendId) {
-        update(DELETE_QUERY, userId, friendId);
+    public void deleteFriend(Long userId, Long friendId) {
+        delete(DELETE_QUERY, userId, friendId);
     }
 
 
