@@ -31,13 +31,8 @@ public class BaseRepository<T> {
     }
 
     protected boolean delete(String query, Object... params) {
-//        try {
         int rowsDeleted = jdbc.update(query, params);
         return rowsDeleted > 0;
-//        } catch (DataIntegrityViolationException exception) {
-//            throw new ConstrainsViolationException(exception.getMessage());
-//        }
-
     }
 
     protected long insert(String query, Object... params) {
