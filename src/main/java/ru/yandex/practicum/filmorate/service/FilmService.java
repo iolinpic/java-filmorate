@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 
@@ -33,6 +34,7 @@ public class FilmService {
     }
 
     public Film updateFilm(Film film) {
+        checkFilmExist(filmStorage.getFilm(film.getId()));
         return filmStorage.updateFilm(film);
     }
 
@@ -47,5 +49,11 @@ public class FilmService {
 
     public Collection<Film> getTopFilms(int count) {
         return filmStorage.getFilms().stream().sorted(Comparator.comparing(f -> f.getLikes().size(), Comparator.reverseOrder())).limit(count).toList();
+    }
+
+    public void checkFilmExist(Film film) {
+        if(film== null){
+            throw new NotFoundException("User not found");
+        }
     }
 }

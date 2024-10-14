@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import ru.yandex.practicum.filmorate.exception.ConstrainsViolationException;
-import ru.yandex.practicum.filmorate.exception.NotFountException;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -63,7 +63,7 @@ public class BaseRepository<T> {
         try {
             int rowsUpdated = jdbc.update(query, params);
             if (rowsUpdated == 0) {
-                throw new NotFountException("Не удалось обновить данные");
+                throw new NotFoundException("Не удалось обновить данные");
             }
         } catch (DataIntegrityViolationException exception) {
             throw new ConstrainsViolationException(exception.getMessage());

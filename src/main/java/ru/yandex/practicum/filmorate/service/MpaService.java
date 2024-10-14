@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.dal.MpaRepository;
-import ru.yandex.practicum.filmorate.exception.NotFountException;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Mpa;
 
 import java.util.Collection;
@@ -19,7 +19,7 @@ public class MpaService {
     public Mpa findById(Long id) {
         Mpa mpa = mpaRepository.findById(id);
         if (mpa == null) {
-            throw new NotFountException("Mpa not found");
+            throw new NotFoundException("Mpa not found");
         }
         return mpa;
     }

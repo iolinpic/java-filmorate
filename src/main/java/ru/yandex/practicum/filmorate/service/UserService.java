@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
@@ -23,7 +24,9 @@ public class UserService {
     }
 
     public User getUser(Long id) {
-        return userStorage.getUser(id);
+        User user = userStorage.getUser(id);
+        checkIfUserExists(user);
+        return user;
     }
 
     public User addUser(User user) {
@@ -35,19 +38,19 @@ public class UserService {
     }
 
     public void addFriend(Long userId, Long friendId) {
-        userStorage.getUser(userId);
-        userStorage.getUser(friendId);
+        checkIfUserExists(userStorage.getUser(userId));
+        checkIfUserExists(userStorage.getUser(friendId));
         userStorage.addFriend(userId, friendId);
     }
 
     public void removeFriend(Long userId, Long friendId) {
-        userStorage.getUser(userId);
-        userStorage.getUser(friendId);
+        checkIfUserExists(userStorage.getUser(userId));
+        checkIfUserExists(userStorage.getUser(friendId));
         userStorage.removeFriend(userId, friendId);
     }
 
     public Collection<User> listOfFriends(Long userId) {
-        userStorage.getUser(userId);
+        checkIfUserExists(userStorage.getUser(userId));
         return userStorage.getUserFriends(userId);
     }
 
@@ -55,5 +58,9 @@ public class UserService {
         return userStorage.getCommonFriends(userId, friendId);
     }
 
-
+    private void checkIfUserExists(User user) {
+        if (user == null) {
+            throw new NotFoundException("User not found");
+        }
+    }
 }

@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.storage;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exception.NotFountException;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.Collection;
@@ -34,7 +34,7 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public User updateUser(User user) {
         if (!users.containsKey(user.getId())) {
-            throw new NotFountException("User not found");
+            throw new NotFoundException("User not found");
         }
         users.put(user.getId(), user);
         log.info("User {} updated", user.getId());
@@ -51,7 +51,7 @@ public class InMemoryUserStorage implements UserStorage {
     public Collection<User> getUserFriends(Long userId) {
         User user = getUser(userId);
         if (user == null) {
-            throw new NotFountException("User not found");
+            throw new NotFoundException("User not found");
         }
         return user.getFriends().stream().map(this::getUser).toList();
     }
@@ -61,7 +61,7 @@ public class InMemoryUserStorage implements UserStorage {
         User user = getUser(userId);
         User friend = getUser(friendId);
         if (user == null || friend == null) {
-            throw new NotFountException("User not found");
+            throw new NotFoundException("User not found");
         }
         return user.getFriends().stream().filter(id -> friend.getFriends().contains(id)).map(this::getUser).toList();
     }
@@ -91,7 +91,7 @@ public class InMemoryUserStorage implements UserStorage {
 
     private void checkExist(User user) {
         if (user == null) {
-            throw new NotFountException("User not found");
+            throw new NotFoundException("User not found");
         }
     }
 

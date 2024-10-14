@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ru.yandex.practicum.filmorate.exception.NotFountException;
 import ru.yandex.practicum.filmorate.model.Friendship;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
@@ -46,8 +45,6 @@ public class UserRepository extends BaseRepository<User> implements UserStorage 
                     .map(Friendship::getFriendId)
                     .toList()
             );
-        } else {
-            throw new NotFountException("User not found");
         }
         return user;
     }
