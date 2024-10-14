@@ -19,7 +19,6 @@ import ru.yandex.practicum.filmorate.model.Mpa;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -31,9 +30,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestDatabase
 @AutoConfigureMockMvc
 class FilmControllerTest {
+    private static ObjectWriter objectWriter;
     @Autowired
     private MockMvc mockMvc;
-    private static ObjectWriter objectWriter;
 
     @BeforeAll
     static void setUpBeforeClass() {
@@ -86,7 +85,7 @@ class FilmControllerTest {
         film.setReleaseDate(LocalDate.now().minusYears(1));
         film.setDescription("123@ms.sw");
         film.setDuration(2);
-        film.setMpa(new Mpa(1L,""));
+        film.setMpa(new Mpa(1L, ""));
         String json = objectWriter.writeValueAsString(film);
         this.mockMvc.perform(
                 post("/films")
@@ -116,7 +115,7 @@ class FilmControllerTest {
         film.setReleaseDate(LocalDate.now().minusYears(1));
         film.setDescription("123@ms.sw");
         film.setDuration(2);
-        film.setMpa(new Mpa(1L,"123"));
+        film.setMpa(new Mpa(1L, "123"));
         String json = objectWriter.writeValueAsString(film);
         this.mockMvc.perform(
                 post("/films")

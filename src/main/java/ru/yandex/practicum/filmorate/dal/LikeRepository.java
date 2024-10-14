@@ -46,5 +46,4 @@ public class LikeRepository extends BaseRepository<Like> {
     }
 
 
-
 }

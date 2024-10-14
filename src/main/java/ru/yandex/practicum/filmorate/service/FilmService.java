@@ -52,7 +52,7 @@ public class FilmService {
     }
 
     public void checkFilmExist(Film film) {
-        if(film== null){
+        if (film == null) {
             throw new NotFoundException("User not found");
         }
     }

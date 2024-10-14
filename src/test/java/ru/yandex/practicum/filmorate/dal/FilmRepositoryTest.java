@@ -100,7 +100,7 @@ class FilmRepositoryTest {
         Film film = createFilm();
         film = filmRepository.addFilm(film);
 
-        filmRepository.addLike(film.getId(),user.getId());
+        filmRepository.addLike(film.getId(), user.getId());
         film = filmRepository.getFilm(film.getId());
         assertEquals(1, film.getLikes().size());
     }
@@ -116,8 +116,8 @@ class FilmRepositoryTest {
         Film film = createFilm();
         film = filmRepository.addFilm(film);
 
-        filmRepository.addLike(film.getId(),user.getId());
-        filmRepository.removeLike(film.getId(),user.getId());
+        filmRepository.addLike(film.getId(), user.getId());
+        filmRepository.removeLike(film.getId(), user.getId());
         film = filmRepository.getFilm(film.getId());
         assertEquals(0, film.getLikes().size());
     }
