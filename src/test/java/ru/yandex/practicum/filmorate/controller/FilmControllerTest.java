@@ -18,6 +18,7 @@ import ru.yandex.practicum.filmorate.model.Mpa;
 
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -105,7 +106,7 @@ class FilmControllerTest {
                         put("/films")
                                 .content(json).contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isNotFound())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException));
+                .andExpect(result -> assertInstanceOf(NotFoundException.class, result.getResolvedException()));
     }
 
     @Test
