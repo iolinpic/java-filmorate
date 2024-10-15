@@ -85,6 +85,7 @@ class UserRepositoryTest {
         User user = new User();
         user.setName("test");
         user.setEmail("test@test.com");
+        user.setLogin("test3");
         user.setBirthday(LocalDate.now());
         userRepository.addUser(user);
         assertEquals(1, userRepository.getUsers().size());
@@ -137,6 +138,7 @@ class UserRepositoryTest {
         User user = new User();
         user.setName("test3");
         user.setEmail("test3@test.com");
+        user.setLogin("test3@test.com");
         user.setBirthday(LocalDate.now());
         user = userRepository.addUser(user);
         userRepository.addFriend(defaultUsersList.get(0).getId(), defaultUsersList.get(1).getId());

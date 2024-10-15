@@ -82,9 +82,9 @@ class UserControllerTest {
     @Test
     void shouldReturnOkOnValidUserCreateRequest() throws Exception {
         User user = new User();
-        user.setLogin("123");
+        user.setLogin("12345");
         user.setBirthday(LocalDate.now().minusYears(1));
-        user.setEmail("123@ms.sw");
+        user.setEmail("12345@ms.sw");
         String json = objectWriter.writeValueAsString(user);
         this.mockMvc.perform(
                 post("/users")
